@@ -8,85 +8,25 @@
 
 <ion-content [fullscreen]="true">
 
-  <ion-searchbar placeholder="Buscar Pokémon"></ion-searchbar>
+  <ion-searchbar (ionChange)="buscarPokemon($event)" placeholder="Buscar Pokémon"></ion-searchbar>
 
   <ion-list>
 
-    <ion-item lines="full" class="ion-no-padding" routerLink="/bulbasaur">
+    <ion-item *ngFor="let pokemon of listaPokemonFiltrada" lines="full" class="ion-no-padding" routerLink="/bulbasaur">
 
       <ion-thumbnail slot="start">
-        <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png">
+        <img [src]="pokemon.foto">
       </ion-thumbnail>
 
       <ion-label>
         <div>
-          <h3>Bulbasaur</h3>
-          <ion-badge color="grass">Grass</ion-badge>
-          <ion-badge color="poison">Poison</ion-badge>
+          <h3>{{ pokemon.nome}}</h3>
+          <ion-badge *ngFor="let tipo of pokemon.tipos" [color]="tipo | lowercase">{{tipo}}</ion-badge>
         </div>
       </ion-label>
 
-      <ion-chip>
-        <ion-label color="grass">001</ion-label>
-      </ion-chip>
-
-    </ion-item>
-
-    <ion-item lines="full" class="ion-no-padding">
-
-      <ion-thumbnail slot="start">
-        <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/002.png">
-      </ion-thumbnail>
-
-      <ion-label>
-        <div>
-          <h3>Ivysaur</h3>
-          <ion-badge color="grass">Grass</ion-badge>
-          <ion-badge color="poison">Poison</ion-badge>
-        </div>
-      </ion-label>
-
-      <ion-chip>
-        <ion-label color="grass">002</ion-label>
-      </ion-chip>
-
-    </ion-item>
-
-    <ion-item lines="full" class="ion-no-padding">
-
-      <ion-thumbnail slot="start">
-        <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/003.png">
-      </ion-thumbnail>
-
-      <ion-label>
-        <div>
-          <h3>Venusaur</h3>
-          <ion-badge color="grass">Grass</ion-badge>
-          <ion-badge color="poison">Poison</ion-badge>
-        </div>
-      </ion-label>
-
-      <ion-chip>
-        <ion-label color="grass">003</ion-label>
-      </ion-chip>
-
-    </ion-item>
-
-    <ion-item lines="full" class="ion-no-padding">
-
-      <ion-thumbnail slot="start">
-        <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/004.png">
-      </ion-thumbnail>
-
-      <ion-label>
-        <div>
-          <h3>Charmander</h3>
-          <ion-badge color="fire">Fire</ion-badge>
-        </div>
-      </ion-label>
-
-      <ion-chip>
-        <ion-label color="fire">004</ion-label>
+      <ion-chip [color]="pokemon.tipos[0] | lowercase">
+        <ion-label>{{ pokemon.numero }}</ion-label>
       </ion-chip>
 
     </ion-item>
