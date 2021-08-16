@@ -1,9 +1,25 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>bulbasaur</ion-title>
+    <ion-title>Bulbasaur</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <div>
+    <ion-chip [color]="pokemon.tipos[0] | lowercase">
+      <ion-label class="numero">{{ pokemon.numero }}</ion-label>
+    </ion-chip>
+  </div>
+  <div>
+    <img [src]="pokemon.foto">
+  </div>
+  <ion-label>
+    <div>
+      <ion-badge class="botao" *ngFor="let tipo of pokemon.tipos" [color]="tipo | lowercase">{{tipo}}</ion-badge>
+    </div>
+  </ion-label>
+
+
 
 </ion-content>
