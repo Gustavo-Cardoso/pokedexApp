@@ -16,7 +16,9 @@ export class BulbasaurPage implements OnInit {
     ]
   };
 
-  constructor() { }
+  numeropokemon: string;
+
+  constructor() {}
 
   ngOnInit() {
   }

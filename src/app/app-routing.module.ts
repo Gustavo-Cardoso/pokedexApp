@@ -12,8 +12,12 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'bulbasaur',
+    path: 'bulbasaur/:id',
     loadChildren: () => import('./pokemons/bulbasaur/bulbasaur.module').then( m => m.BulbasaurPageModule)
+  },
+  {
+    path: 'dados-pokemon',
+    loadChildren: () => import('./pokemons/dados-pokemon/dados-pokemon.module').then( m => m.DadosPokemonPageModule)
   },
 ];
 
