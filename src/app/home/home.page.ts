@@ -1,3 +1,5 @@
+import { IPokemon } from './../models/IPokemon.model';
+import { PokemonService } from './../services/pokemon.service';
 import { Router } from '@angular/router';
 import { DadosService } from './../services/dados.service';
 import { Component } from '@angular/core';
@@ -13,93 +15,16 @@ export class HomePage {
   // [] => representa um array (Lista)
   // {} => representa um objeto (Item)
 
-  listaPokemon= [
-    {
-      numero: '001',
-      nome: 'Bulbasaur',
-      foto: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png',
-      tipos: [
-        'Grass', 'Poison'
-      ]
-    },
-    {
-      numero: '002',
-      nome: 'Ivysaur',
-      foto: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/002.png',
-      tipos: [
-        'Grass', 'Poison'
-      ]
-    },
-    {
-      numero: '003',
-      nome: 'Venusaur',
-      foto: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/003.png',
-      tipos: [
-        'Grass', 'Poison'
-      ]
-    },
-    {
-      numero: '004',
-      nome: 'Charmander',
-      foto: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/004.png',
-      tipos: [
-        'Fire'
-      ]
-    },
-    {
-      numero: '005',
-      nome: 'Charmeleon',
-      foto: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/005.png',
-      tipos: [
-        'Fire'
-      ]
-    },
-    {
-      numero: '006',
-      nome: 'Charizard',
-      foto: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/006.png',
-      tipos: [
-        'Fire'
-      ]
-    },
-    {
-      numero: '007',
-      nome: 'Squirtle',
-      foto: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/007.png',
-      tipos: [
-        'Water'
-      ]
-    },
-    {
-      numero: '008',
-      nome: 'Wartortle',
-      foto: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/008.png',
-      tipos: [
-        'Water'
-      ]
-    },
-    {
-      numero: '009',
-      nome: 'Blastoise',
-      foto: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/009.png',
-      tipos: [
-        'Water'
-      ]
-    },
-    {
-      numero: '010',
-      nome: 'Caterpie',
-      foto: 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/010.png',
-      tipos: [
-        'Bug'
-      ]
-    }
-  ];
+  listaPokemon: IPokemon[] = [];
 
-  listaPokemonFiltrada = [];
+  listaPokemonFiltrada: IPokemon[] = [];
 
-  constructor(private dadosService: DadosService, private router: Router) {
-    this.retonarPokemon();
+  constructor(
+    private dadosService: DadosService,
+    private router: Router,
+    private pokemonService: PokemonService) {
+
+    this.buscarPokemonAPI();
   }
 
   retonarPokemon(): void{
@@ -114,7 +39,7 @@ export class HomePage {
 
     if(busca && busca.trim() !== ''){// Testa se tem alguma coisa no campo
       this.listaPokemonFiltrada = this.listaPokemon.filter(pokemon =>
-        pokemon.nome.toLowerCase().includes(busca.trim().toLowerCase())
+        pokemon.name.toLowerCase().includes(busca.trim().toLowerCase())
       );
     }
   }
@@ -126,5 +51,22 @@ export class HomePage {
     // Navega até a página para exibir os dados
     this.router.navigateByUrl('/dados-pokemon');
 
+  }
+
+  buscarPokemonAPI(): void{
+    this.pokemonService.buscarPokemons().subscribe(dadosRetorno => {
+      console.log(dadosRetorno); // Pega a lista de pokemons da API
+
+      // Percorre a lsita de Pokemons para buscar os dados de cada pokemon.
+      for(const item of dadosRetorno.results) {
+
+        // Busca na API os dados de cada pokemon
+        this.pokemonService.buscarPokemon(item.url).subscribe(dadosPokemon => {
+          this.listaPokemon.push(dadosPokemon);
+        });
+      }
+
+      this.retonarPokemon();
+    });
   }
 }

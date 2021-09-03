@@ -1,14 +1,7 @@
+import { IPokemon } from './../../models/IPokemon.model';
 import { DadosService } from './../../services/dados.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
-export interface IPokemon {
-  numero: string;
-  nome: string;
-  foto: string;
-  tipos: string [];
-}
-
 
 @Component({
   selector: 'app-dados-pokemon',
